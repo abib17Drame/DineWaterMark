@@ -1,8 +1,12 @@
 import axios from "axios";
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000/api/v1";
+const API_KEY = import.meta.env.VITE_API_KEY || "";
 
-const api = axios.create({ baseURL: API_BASE });
+const api = axios.create({
+  baseURL: API_BASE,
+  headers: API_KEY ? { "X-API-Key": API_KEY } : {},
+});
 
 export async function supprimerWatermark(fichier, debug = false, watermarkMode = "auto") {
   const formData = new FormData();

@@ -17,10 +17,19 @@ import time
 import base64
 
 import cv2
-from fastapi import APIRouter, UploadFile, File, Form, HTTPException, BackgroundTasks
+from fastapi import (
+    APIRouter,
+    UploadFile,
+    File,
+    Form,
+    HTTPException,
+    BackgroundTasks,
+    Depends,
+    Header,
+)
 from fastapi.responses import FileResponse
 
-from app.config import TAILLE_MAX_FICHIER_OCTETS, EXTENSIONS_AUTORISEES
+from app.config import TAILLE_MAX_FICHIER_OCTETS, EXTENSIONS_AUTORISEES, API_KEY, MODE_DEBUG
 from app.utils.file_utils import (
     valider_extension_fichier,
     valider_type_mime,
@@ -36,7 +45,22 @@ from app.services.image_processeur import traiter_image
 
 logger = logging.getLogger(__name__)
 
-routeur = APIRouter(tags=["Traitement"])
+def verifier_cle_api(
+    x_api_key: str | None = Header(None, alias="X-API-Key"),
+    authorization: str | None = Header(None),
+) -> None:
+    if not API_KEY:
+        return
+
+    token = x_api_key
+    if not token and authorization and authorization.lower().startswith("bearer "):
+        token = authorization.split(" ", 1)[1]
+
+    if token != API_KEY:
+        raise HTTPException(status_code=401, detail="Clé API invalide ou manquante")
+
+
+routeur = APIRouter(tags=["Traitement"], dependencies=[Depends(verifier_cle_api)])
 
 # Stockage en mémoire des tâches
 # En production, utiliser Redis ou une base de données
@@ -147,6 +171,9 @@ async def supprimer_watermark_fichier(
     Formats supportés : PDF, PPTX, PNG, JPG.
     Le traitement est asynchrone — utilisez /status/{task_id} pour suivre.
     """
+    if not MODE_DEBUG:
+        debug = False
+
     # Validation
     if not valider_extension_fichier(file.filename):
         raise HTTPException(
@@ -245,6 +272,9 @@ async def traitement_batch(
     Traite plusieurs fichiers en une seule opération.
     Option : fusionner les PPTX avant traitement.
     """
+    if not MODE_DEBUG:
+        debug = False
+
     if not files:
         raise HTTPException(status_code=400, detail="Aucun fichier fourni")
 

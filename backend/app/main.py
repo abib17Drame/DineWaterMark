@@ -7,8 +7,9 @@ import logging
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.trustedhost import TrustedHostMiddleware
 
-from app.config import ORIGINES_AUTORISEES, MODE_DEBUG
+from app.config import ORIGINES_AUTORISEES, ALLOWED_HOSTS, ENABLE_DOCS, MODE_DEBUG
 from app.routers import api
 
 # Logging
@@ -28,9 +29,13 @@ app = FastAPI(
         "pour fichiers PDF, PPTX et images (PNG/JPG)."
     ),
     version="1.0.0",
-    docs_url="/docs",
-    redoc_url="/redoc",
+    docs_url="/docs" if ENABLE_DOCS else None,
+    redoc_url="/redoc" if ENABLE_DOCS else None,
+    openapi_url="/openapi.json" if ENABLE_DOCS else None,
 )
+
+if ALLOWED_HOSTS and "*" not in ALLOWED_HOSTS:
+    app.add_middleware(TrustedHostMiddleware, allowed_hosts=ALLOWED_HOSTS)
 
 # Middleware CORS
 origines = ORIGINES_AUTORISEES or ["*"]
@@ -43,6 +48,19 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.middleware("http")
+async def ajouter_entetes_securite(request, call_next):
+    response = await call_next(request)
+    response.headers.setdefault("X-Content-Type-Options", "nosniff")
+    response.headers.setdefault("X-Frame-Options", "DENY")
+    response.headers.setdefault("Referrer-Policy", "no-referrer")
+    response.headers.setdefault(
+        "Permissions-Policy",
+        "camera=(), microphone=(), geolocation=()",
+    )
+    return response
 
 # Routes
 app.include_router(api.routeur, prefix="/api/v1")
