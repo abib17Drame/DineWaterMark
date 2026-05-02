@@ -20,7 +20,7 @@ export default function Navbar() {
 
       <div className="flex items-center gap-6">
         <a
-          href="https://github.com"
+          href="https://github.com/abib17Drame"
           target="_blank"
           rel="noopener noreferrer"
           className="w-10 h-10 rounded-full flex items-center justify-center bg-white/50 border border-amber-200 text-secondary hover:bg-white hover:shadow-sm hover:-translate-y-1 transition-all duration-300"
