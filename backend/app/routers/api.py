@@ -542,10 +542,22 @@ async def telecharger_fichier(id_tache: str):
     # Planifier le nettoyage du fichier après téléchargement
     asyncio.create_task(planifier_nettoyage(chemin_resultat, delai=60))
 
+    # Déterminer le type MIME correct pour éviter le .bin sur mobile
+    type_mime = "application/octet-stream"
+    if nom_fichier_sortie.lower().endswith(".pdf"):
+        type_mime = "application/pdf"
+    elif nom_fichier_sortie.lower().endswith(".pptx"):
+        type_mime = "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+    elif nom_fichier_sortie.lower().endswith((".png", ".jpg", ".jpeg")):
+        if nom_fichier_sortie.lower().endswith(".png"):
+            type_mime = "image/png"
+        else:
+            type_mime = "image/jpeg"
+
     return FileResponse(
         path=chemin_resultat,
         filename=nom_fichier_sortie,
-        media_type="application/octet-stream",
+        media_type=type_mime,
         content_disposition_type="attachment",
         headers={"Access-Control-Expose-Headers": "Content-Disposition"}
     )

@@ -57,30 +57,27 @@ export default function Dropzone({ onFichiersAcceptes, desactive }) {
         {...getRootProps()}
         whileHover={!desactive ? { scale: 1.01 } : {}}
         whileTap={!desactive ? { scale: 0.99 } : {}}
-        className={`dropzone-base ${fichiers.length > 0 ? "p-7 md:p-9" : "p-12"} ${isDragActive ? "dropzone-active" : "dropzone-idle"} ${desactive ? "opacity-50 pointer-events-none" : "cursor-pointer"}`}
+        className={`dropzone-base ${isDragActive ? "dropzone-active" : "dropzone-idle"} ${desactive ? "opacity-50 pointer-events-none" : "cursor-pointer"} p-6 sm:p-12`}
       >
         <input {...getInputProps()} />
-
+        
         <motion.div
           animate={isDragActive ? { y: -10, scale: 1.1 } : { y: 0, scale: 1 }}
-          className="w-24 h-24 mb-6 rounded-[2rem] bg-amber-100 flex items-center justify-center shadow-inner-light"
+          className="w-16 h-16 sm:w-24 sm:h-24 mb-4 sm:mb-6 rounded-[1.5rem] sm:rounded-[2rem] bg-amber-100 flex items-center justify-center shadow-inner-light"
         >
-          <UploadCloud className={`w-10 h-10 ${isDragActive ? "text-primary-dark" : "text-primary"}`} />
+          <UploadCloud className={`w-8 h-8 sm:w-10 sm:h-10 ${isDragActive ? "text-primary-dark" : "text-primary"}`} />
         </motion.div>
 
-        <h3 className="text-2xl font-bold text-secondary mb-2">
-          {isDragActive ? "Relachez pour analyser" : (fichiers.length > 0 ? "Documents prets" : "Deposez vos documents")}
+        <h3 className="text-xl sm:text-2xl font-bold text-secondary mb-1 sm:mb-2 text-center">
+          {isDragActive ? "Relachez pour analyser" : "Deposez vos documents"}
         </h3>
-        <p className="text-secondary-light font-medium mb-6">
-          {fichiers.length > 0
-            ? "Ajoutez-en d'autres ou lancez le nettoyage ci-dessous"
-            : <>ou <span className="text-primary hover:text-primary-dark underline decoration-2 underline-offset-4 cursor-pointer">parcourez vos fichiers</span></>}
+        <p className="text-secondary-light text-sm sm:text-base font-medium mb-4 sm:mb-6 text-center">
+          ou <span className="text-primary hover:text-primary-dark underline decoration-2 underline-offset-4 cursor-pointer">parcourez vos fichiers</span>
         </p>
 
-        <div className="flex gap-2 justify-center">
-          {["PDF", "PPTX", "PNG", "JPG"].map(fmt => (
-            <span key={fmt} className="px-3 py-1 bg-white text-secondary-light border border-amber-200 rounded-lg text-sm font-semibold shadow-sm">{fmt}</span>
-          ))}
+        <div className="flex gap-2 justify-center flex-wrap">
+          <span className="px-2 sm:px-3 py-1 bg-white text-secondary-light border border-amber-200 rounded-lg text-[10px] sm:text-sm font-semibold shadow-sm">PDF / PPTX / Images (NotebookLM)</span>
+          <span className="px-2 sm:px-3 py-1 bg-white text-emerald-700 border border-emerald-200 rounded-lg text-[10px] sm:text-sm font-semibold shadow-sm">Images (Gemini)</span>
         </div>
       </motion.div>
 
