@@ -39,7 +39,13 @@ export default function App() {
         toast.error("Le traitement par lot arrive bientôt !");
         setEtape(ETAPES.UPLOAD);
       } else {
-        const result = await processImageLocal(fichier);
+        const result = await processImageLocal(fichier, {
+          onProgress: (prog, phase) => {
+            setProgression(prog);
+            if (phase === 'detect') setMessage("Détection du filigrane...");
+            else setMessage("Nettoyage en cours...");
+          }
+        });
         if (result) {
           setProgression(100);
           setTache(result);

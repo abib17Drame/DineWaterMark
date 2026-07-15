@@ -26,7 +26,7 @@ function getFileImageData(file) {
   });
 }
 
-export async function processImageLocal(fichier) {
+export async function processImageLocal(fichier, options = {}) {
   try {
     const startMs = Date.now();
     
@@ -39,7 +39,15 @@ export async function processImageLocal(fichier) {
         highQualityCleanup: true,
         sampleCount: 12,
         preserveAudio: true,
-        allowLowConfidence: true
+        allowLowConfidence: true,
+        onProgress: (p) => {
+          if (options.onProgress) {
+            let total = 10;
+            if (p.phase === 'detect') total = 10 + (p.progress * 20);
+            else total = 30 + (p.progress * 69);
+            options.onProgress(Math.round(total), p.phase);
+          }
+        }
       });
       
       const finalUrl = URL.createObjectURL(result.blob);
