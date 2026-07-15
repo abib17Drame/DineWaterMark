@@ -291,7 +291,7 @@ export async function detectGeminiVideoWatermark(file, options = {}) {
         await yieldToMainThread();
         const canvas = createRuntimeCanvas(metadata.width, metadata.height);
         const ctx = get2dContext(canvas);
-        const sink = new VideoSampleSink(videoTrack);
+        const sink = new VideoSampleSink(videoTrack, { hardwareAcceleration: 'prefer-software' });
         const targets = getSampleTargetTimestamps({
             firstTimestamp: metadata.firstTimestamp,
             duration: metadata.duration,
@@ -973,7 +973,7 @@ export async function removeGeminiVideoWatermark(file, options = {}) {
     try {
         await output.start();
         const audioCopyPromise = copyAudioPackets(audioCopy);
-        const sink = new VideoSampleSink(videoTrack);
+        const sink = new VideoSampleSink(videoTrack, { hardwareAcceleration: 'prefer-software' });
 
         for await (const sample of sink.samples()) {
             let timestamp = Math.max(0, sample.timestamp - metadata.firstTimestamp);
