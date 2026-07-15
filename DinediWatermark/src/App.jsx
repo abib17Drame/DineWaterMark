@@ -91,7 +91,7 @@ export default function App() {
         }}
       />
 
-      <main className="relative z-10 flex flex-col items-center justify-center min-h-[100dvh] px-4 pt-24 pb-12 w-full max-w-7xl mx-auto">
+      <main className="relative z-10 flex flex-col items-center justify-center min-h-[100dvh] px-4 pt-16 md:pt-24 pb-12 w-full max-w-7xl mx-auto">
         <AnimatePresence mode="wait">
           {etape === ETAPES.UPLOAD && (
             <motion.div
@@ -102,12 +102,12 @@ export default function App() {
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               className="w-full flex flex-col items-center"
             >
-              <div className="text-center mb-10 md:mb-14 max-w-2xl px-4">
+              <div className="text-center mb-6 md:mb-14 max-w-2xl px-4">
                 <motion.h1
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.2, duration: 0.7 }}
-                  className="text-4xl md:text-5xl font-black text-secondary leading-[1.1] tracking-tight mb-4"
+                  className="text-3xl md:text-5xl font-black text-secondary leading-[1.1] tracking-tight mb-3 md:mb-4"
                 >
                   Effacez le filigrane. <br />
                   <span className="text-gradient-primary">Sublimez vos documents.</span>
@@ -117,7 +117,7 @@ export default function App() {
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.3, duration: 0.7 }}
-                  className="text-base text-secondary-light font-medium"
+                  className="text-sm md:text-base text-secondary-light font-medium"
                 >
                   Glissez vos fichiers. Le moteur supprime les filigranes Gemini avec une precision mathematique.
                 </motion.p>
@@ -136,7 +136,7 @@ export default function App() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6, duration: 0.8 }}
-                className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl"
+                className="mt-6 md:mt-8 hidden md:grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl"
               >
                 {avantages.map(({ ic: Ic, titre, desc }, i) => (
                   <motion.div

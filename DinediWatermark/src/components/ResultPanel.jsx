@@ -111,9 +111,9 @@ export default function ResultPanel({ tache, onNouveau }) {
           initial={{ scale: 0, rotate: -45 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ type: "spring", stiffness: 200, delay: 0.1 }}
-          className="relative w-16 h-16 sm:w-24 sm:h-24 mx-auto mb-4 sm:mb-8 rounded-[1.5rem] sm:rounded-[2rem] bg-emerald-100 flex items-center justify-center shadow-[inset_0_2px_4px_rgba(255,255,255,0.8)]"
+          className="relative w-14 h-14 sm:w-24 sm:h-24 mx-auto mb-4 sm:mb-8 rounded-[1.2rem] sm:rounded-[2rem] bg-emerald-100 flex items-center justify-center shadow-[inset_0_2px_4px_rgba(255,255,255,0.8)]"
         >
-          <CheckCircle2 className="w-8 h-8 sm:w-12 sm:h-12 text-emerald-500" />
+          <CheckCircle2 className="w-6 h-6 sm:w-12 sm:h-12 text-emerald-500" />
         </motion.div>
 
         <h3 className="text-2xl sm:text-4xl font-extrabold text-slate-900 mb-2 sm:mb-3">Parfait !</h3>
@@ -121,20 +121,20 @@ export default function ResultPanel({ tache, onNouveau }) {
           Le document <span className="text-slate-900 font-bold">{tache.nom_fichier}</span> est 100% propre.
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 mb-8 sm:mb-12">
+        <div className="grid grid-cols-3 gap-2 sm:gap-6 mb-6 sm:mb-12">
           {stats.map(({ label, val, ic: Ic }, i) => (
             <motion.div
               key={label}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 + i * 0.1 }}
-              className="bg-white/60 backdrop-blur-md rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-white shadow-sm flex flex-col items-center justify-center tilt-card"
+              className="bg-white/60 backdrop-blur-md rounded-xl sm:rounded-3xl p-2 sm:p-6 border border-white shadow-sm flex flex-col items-center justify-center tilt-card"
             >
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-amber-50 rounded-lg sm:rounded-xl flex items-center justify-center mb-2 sm:mb-4">
-                <Ic className="w-4 h-4 sm:w-5 sm:h-5 text-amber-600" />
+              <div className="w-6 h-6 sm:w-10 sm:h-10 bg-amber-50 rounded-md sm:rounded-xl flex items-center justify-center mb-1 sm:mb-4">
+                <Ic className="w-3 h-3 sm:w-5 sm:h-5 text-amber-600" />
               </div>
-              <p className="text-xl sm:text-3xl font-black text-slate-900 mb-0.5 sm:mb-1">{val}</p>
-              <p className="text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider">{label}</p>
+              <p className="text-lg sm:text-3xl font-black text-slate-900 mb-0.5 sm:mb-1">{val}</p>
+              <p className="text-[9px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider text-center leading-tight">{label}</p>
             </motion.div>
           ))}
         </div>
@@ -145,12 +145,12 @@ export default function ResultPanel({ tache, onNouveau }) {
             a.href = url;
             a.download = "propre_" + tache.nom_fichier;
             a.click();
-          }} className="btn-m3-primary cursor-pointer flex-1 h-14 sm:h-16 text-base sm:text-lg rounded-2xl sm:rounded-[1.5rem] shadow-[0_8px_32px_0_rgba(217,119,6,0.1)]">
-            <Download className="w-5 h-5 sm:w-6 sm:h-6" />
-            Recuperer le fichier
+          }} className="btn-m3-primary cursor-pointer flex-1 h-12 sm:h-16 text-sm sm:text-lg rounded-[1rem] sm:rounded-[1.5rem] shadow-[0_8px_32px_0_rgba(217,119,6,0.1)]">
+            <Download className="w-4 h-4 sm:w-6 sm:h-6" />
+            Recuperer
           </button>
-          <button onClick={onNouveau} className="btn-m3-secondary cursor-pointer flex-1 h-14 sm:h-16 text-base sm:text-lg rounded-2xl sm:rounded-[1.5rem]">
-            <RefreshCw className="w-5 h-5 sm:w-6 sm:h-6" />
+          <button onClick={onNouveau} className="btn-m3-secondary cursor-pointer flex-1 h-12 sm:h-16 text-sm sm:text-lg rounded-[1rem] sm:rounded-[1.5rem]">
+            <RefreshCw className="w-4 h-4 sm:w-6 sm:h-6" />
             Nouveau document
           </button>
         </div>

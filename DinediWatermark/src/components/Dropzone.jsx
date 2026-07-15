@@ -56,7 +56,7 @@ export default function Dropzone({ onFichiersAcceptes, desactive }) {
         {...getRootProps()}
         whileHover={!desactive ? { scale: 1.01 } : {}}
         whileTap={!desactive ? { scale: 0.99 } : {}}
-        className={`dropzone-base ${isDragActive ? "dropzone-active" : "dropzone-idle"} ${desactive ? "opacity-50 pointer-events-none" : "cursor-pointer"} p-4 sm:p-8`}
+        className={`dropzone-base ${isDragActive ? "dropzone-active" : "dropzone-idle"} ${desactive ? "opacity-50 pointer-events-none" : "cursor-pointer"} p-4 sm:p-8 flex flex-col items-center justify-center min-h-[160px] md:min-h-[220px]`}
       >
         <input {...getInputProps()} />
         
@@ -82,7 +82,7 @@ export default function Dropzone({ onFichiersAcceptes, desactive }) {
 
       <AnimatePresence>
         {fichiers.length > 0 && (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95 }} className="mt-8 flex flex-col items-center gap-6">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95 }} className="mt-4 md:mt-8 flex flex-col items-center gap-4 md:gap-6">
             
             <div className="w-full max-h-[320px] overflow-y-auto pr-2 space-y-3" ref={actionsRef}>
               {fichiers.map((f, i) => {
@@ -91,17 +91,17 @@ export default function Dropzone({ onFichiersAcceptes, desactive }) {
                 <motion.div 
                   initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}
                   key={i} 
-                  className="flex flex-col sm:flex-row items-center gap-4 bg-white/60 backdrop-blur-md p-4 rounded-[1.2rem] shadow-sm border border-amber-100 hover:bg-white/80 transition-colors group"
+                  className="flex items-center gap-3 md:gap-4 bg-white/60 backdrop-blur-md p-3 md:p-4 rounded-[1rem] md:rounded-[1.2rem] shadow-sm border border-amber-100 hover:bg-white/80 transition-colors group"
                 >
-                  <div className="w-12 h-12 bg-amber-100/50 rounded-xl flex items-center justify-center shrink-0">
-                    <Ic className="w-6 h-6 text-amber-600" />
+                  <div className="w-10 h-10 md:w-12 md:h-12 bg-amber-100/50 rounded-xl flex items-center justify-center shrink-0">
+                    <Ic className="w-5 h-5 md:w-6 md:h-6 text-amber-600" />
                   </div>
-                  <div className="flex-1 min-w-0 text-center sm:text-left">
-                    <p className="font-bold text-slate-800 truncate">{f.name}</p>
-                    <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">{getType(f)} • {taille(f.size)}</p>
+                  <div className="flex-1 min-w-0 text-left">
+                    <p className="font-bold text-sm md:text-base text-slate-800 truncate">{f.name}</p>
+                    <p className="text-[10px] md:text-xs text-slate-500 font-medium uppercase tracking-wider">{getType(f)} • {taille(f.size)}</p>
                   </div>
-                  <button onClick={(e) => { e.stopPropagation(); retirer(i); }} className="w-10 h-10 rounded-full bg-slate-100/50 text-slate-400 hover:bg-red-50 hover:text-red-500 flex items-center justify-center transition-all group-hover:shadow-sm">
-                    <X className="w-5 h-5" />
+                  <button onClick={(e) => { e.stopPropagation(); retirer(i); }} className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-slate-100/50 text-slate-400 hover:bg-red-50 hover:text-red-500 flex items-center justify-center transition-all group-hover:shadow-sm shrink-0">
+                    <X className="w-4 h-4 md:w-5 md:h-5" />
                   </button>
                 </motion.div>
               );
@@ -109,7 +109,7 @@ export default function Dropzone({ onFichiersAcceptes, desactive }) {
             </div>
 
             <div className="w-full pt-2 border-t border-amber-200/50 flex justify-center">
-              <button onClick={lancer} className="btn-m3-primary w-full sm:w-auto min-w-[280px] h-14 rounded-2xl text-lg shadow-lg shadow-amber-600/20 hover:shadow-amber-600/40">
+              <button onClick={lancer} className="btn-m3-primary w-full sm:w-auto min-w-0 md:min-w-[280px] h-12 md:h-14 rounded-xl md:rounded-2xl text-base md:text-lg shadow-lg shadow-amber-600/20 hover:shadow-amber-600/40">
                 <Eraser className="w-5 h-5 mr-1" />
                 Nettoyer {fichiers.length > 1 ? `les ${fichiers.length} fichiers` : "ce fichier"}
               </button>
